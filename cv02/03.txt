@@ -1,0 +1,17 @@
+ZADD scoreboard 888 "Alfred"
+ZADD scoreboard 123 "Tom" 111 "Bob" 222 "Alice" 333 "Theresa" 444 "Jim" 555 "Tim" 666 "Martin" 777 "Joanna" 889 "Garfield" 999 "Maurice"
+
+ZREVRANGEBYSCORE scoreboard 999 0 LIMIT 0 3
+
+ZRANGEBYSCORE scoreboard 0 999 LIMIT 0 1 WITHSCORES
+
+ZCOUNT scoreboard 0 100
+
+ZRANGEBYSCORE scoreboard 850 999
+
+ZREVRANK scoreboard 888 "Alfred"
+
+ZINCRBY scoreboard 12 "Alfred"
+ZREVRANK scoreboard "Alfred"
+
+FLUSHALL

@@ -1,0 +1,14 @@
+RPUSH todolist "Clean my room" "Make the bed" "Cook dinner" "Do the dishes" "Go to sleep early"
+
+LPUSH todolist "Walk the dog"
+
+LRANGE todolist 0 -1
+
+LLEN todolist
+
+LMOVE todolist finished LEFT RIGHT
+
+LRANGE todolist 0 -1
+LRANGE finished 0 -1
+
+FLUSHALL
