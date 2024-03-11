@@ -1,0 +1,19 @@
+SET wares:price:sofa 50
+SET wares:price:table 30
+SET wares:price:chair 20
+SET wares:price:counter 15
+SET wares:price:wardrobe 60
+
+KEYS wares:price:*
+
+GET wares:price:counter
+
+SET wares:price:counter 20
+GET wares:price:counter
+
+DEL wares:price:sofa
+
+EXPIRE wares:price:wardrobe 60
+TTL wares:price:wardrobe
+
+FLUSHALL
