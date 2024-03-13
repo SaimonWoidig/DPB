@@ -45,12 +45,14 @@ func TextAnalysis(filepath string) (TextAnalysisResult, TextAnalysisResult, erro
 	letterFreq := make(TextAnalysisResult)
 	wordFreq := make(TextAnalysisResult)
 
+	// count words
 	for _, word := range strings.Fields(fileContents) {
 		trimmedWord := strings.TrimSpace(word)
 		// ignore urls
 		if _, err := url.ParseRequestURI(trimmedWord); err == nil {
 			continue
 		}
+		// clean word of unwanted characters
 		cleanWord := cleanWord(trimmedWord)
 		// ignore empty words
 		if cleanWord == "" {

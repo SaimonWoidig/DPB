@@ -2,13 +2,14 @@ package main
 
 import (
 	"dpb03/pkg/chessboard"
+	"dpb03/pkg/cipher"
 	"dpb03/pkg/numbers"
 	"dpb03/pkg/text"
 	"fmt"
 )
 
 func main() {
-	numToFactor := 1
+	numToFactor := 220
 	factors, err := numbers.Factorize(numToFactor)
 	if err != nil {
 		panic(err.Error())
@@ -43,4 +44,30 @@ func main() {
 	minWordLength := 8
 	filteredWordFreq := text.GetWords(numWords, minWordLength, wordFreq)
 	fmt.Printf("top %d words of min length %d:\n%v\n", numWords, minWordLength, filteredWordFreq)
+
+	// declare a custom encryptor with a custom alphabet
+	alphabet := "abcdefghijklmnopqrstuvwxyz"
+	ignoreUnknownLetters := true
+	enc, err := cipher.NewPolybiusEncryptor(alphabet, ignoreUnknownLetters)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	// or use the default encryptor with a default alphabet
+	// enc := cipher.DefaultPolybiusEncryptor
+
+	fmt.Printf("the polybius square is:\n%v\n", enc.PolybiusSquare)
+
+	toEncrypt := "hello my friend"
+	encrypted, err := enc.Encrypt(toEncrypt)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Printf("string %q is encrypted to %q\n", toEncrypt, encrypted)
+	decrypted, err := enc.Decrypt(encrypted)
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("string %q is decrypted to %q\n", encrypted, decrypted)
 }

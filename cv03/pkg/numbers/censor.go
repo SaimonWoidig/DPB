@@ -20,14 +20,16 @@ func (cs CensoredSequence) String() string {
 	return censoredNumbers
 }
 
-// CensorNumber returns a list of numbers from 1 to upperBound that do not contain numToCensor. The numbers that do not contain numToCensor are censored - marked with an asterisk.
+// CensorNumber returns a list of numbers from 1 to upperBound that do not contain numToCensor.
+// The numbers that do not contain numToCensor are censored - marked with an asterisk.
 // The input must be a positive integer.
 func CensorNumber(upperBound, numToCensor int) (CensoredSequence, error) {
+	// check if the input is valid
 	if upperBound < 1 {
 		return nil, fmt.Errorf("invalid input: %d", upperBound)
 	}
-	var censoredNumbers CensoredSequence
 
+	var censoredNumbers CensoredSequence
 	for i := 1; i <= upperBound; i++ {
 		if !doesNumberContainNumber(i, numToCensor) {
 			censoredNumbers = append(censoredNumbers, strconv.Itoa(i))
@@ -43,14 +45,19 @@ func CensorNumber(upperBound, numToCensor int) (CensoredSequence, error) {
 func doesNumberContainNumber(n, numToFilter int) bool {
 	numDigitsN := len(strconv.Itoa(n))
 	numDigitsFilter := len(strconv.Itoa(numToFilter))
+
+	// check if n contains numToFilter
 	for i := 0; i < numDigitsN; i++ {
+		// check if the number of digits in n is less than the number of digits in numToFilter
 		if i+numDigitsFilter > numDigitsN {
 			return false
 		}
+		// check if the digits in n are equal to the digits in numToFilter
 		substr := strconv.Itoa(n)[i : i+numDigitsFilter]
 		if substr == strconv.Itoa(numToFilter) {
 			return true
 		}
 	}
+
 	return false
 }
