@@ -1,6 +1,6 @@
 module dpb03
 
-go 1.21.7
+go 1.21
 
 require github.com/gobs/sortedmap v1.0.0
 
