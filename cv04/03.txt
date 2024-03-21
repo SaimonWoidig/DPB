@@ -1,0 +1,22 @@
+// restaurace ktere maji alespon jedno hodnoceni v intervalu (80-90)
+db.restaurants.find({grades: {$elemMatch: {$and: [
+    {score: {$gt: 80}},
+    {score: {$lt: 90}}
+]}}})
+
+// pridani pole `popular: 1` k restauracim s alespon jednim hodnocenim >80
+db.restaurants.updateMany({grades: {$elemMatch: {score: {$gt: 80}}}}, {$set: {popular: 1}}, {upsert: true})
+
+// pridani pole `trash: 1` k restauracim s alespon jednim hodnocenim <1
+db.restaurants.updateMany({grades: {$elemMatch: {score: {$lt: 1}}}}, {$set: {trash: 1}}, {upsert: true})
+
+// vypsani kontroverznich restauraci (`popular: 1` nebo `trash: 1`)
+db.restaurants.find({$or: [
+    {popular: 1},
+    {trash: 1}
+]})
+
+// pridani pole `top_score: 1` k hodnocenim vyssim nez 90
+db.restaurants.updateMany({grades: {$elemMatch: {score: {$gt: 90}}}}, {$set: {
+    'grades.$[].top_score': 1
+}}, {upsert: true})

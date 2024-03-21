@@ -1,0 +1,19 @@
+// vytvoreni noveho s 3 poli
+db.restaurants.insertOne({
+    cuisine: 'Sushi',
+    name: 'Super Sushi Spot',
+    restaurant_id: '199911991'
+})
+
+// vyhledani vytvorene restaurace
+db.restaurants.findOne({restaurant_id: '199911991'})
+
+// zmena nazvu vytvorene restaurace
+db.restaurants.updateOne({restaurant_id: '199911991'}, {$set: {name: 'Supah Sushi Spot'}})
+
+// alokace pole k poli hodnoceni a vlozeni noveho hodnoceni
+db.restaurants.updateOne({restaurant_id: '199911991'}, {$set: {grades: []}})
+db.restaurants.updateOne({restaurant_id: '199911991'}, {$push: {grades: {date: ISODate(), grade: 'S', score: 99}}})
+
+// smazani nove restaurace
+db.restaurants.deleteOne({restaurant_id: '199911991'})

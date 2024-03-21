@@ -1,0 +1,23 @@
+// vyhledani vsech restauraci - omezeno kurzorem
+db.restaurants.find({})
+// pripadne VSECH restauraci - prilis mnoho dat
+db.restaurants.find({}).toArray()
+
+// vyhledani vsech restauraci, pouze nazvy a abecedne serazene
+db.restaurants.find({}, {_id: 0, name: 1}).sort({name: 1})
+// s limitem 10
+db.restaurants.find({}, {_id: 0, name: 1}).sort({name: 1}).limit(10)
+// dalsich 10
+db.restaurants.find({}, {_id: 0, name: 1}).sort({name: 1}).skip(10).limit(10)
+
+// vsechny restaurace v Bronxu
+db.restaurants.find({borough: 'Bronx'})
+
+// jmena zacinajici na M
+db.restaurants.find({name: /^M/}, {_id: 0, name: 1})
+
+// italske v Manhattanu
+db.restaurants.find({borough: 'Manhattan', cuisine: 'Italian'})
+
+// s alespon 1 skorem vyssim nez 80
+db.restaurants.find({grades: {$elemMatch: {score: {$gt: 80}}}})
