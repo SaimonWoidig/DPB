@@ -10,7 +10,7 @@ Všechny výsledky limitujte na 10 záznamů. Nepoužívejte české názvy prom
 2. Vypsání všech restaurací - pouze názvů, abecedně seřazených
 3. Vypsání pouze 5 záznamů z předchozího dotazu
 4. Zobrazte dalších 10 záznamů
-5. #Vypsání restaurací ve čtvrti Bronx (čtvrť = borough)
+5. Vypsání restaurací ve čtvrti Bronx (čtvrť = borough)
 6. Vypsání restaurací, jejichž název začíná na písmeno M
 7. Vypsání restaurací, které mají skóre větší než 80
 8. Vypsání restaurací, které mají skóre mezi 80 a 90
