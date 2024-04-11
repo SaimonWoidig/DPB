@@ -1,0 +1,14 @@
+services:
+  import-data:
+    image: docker.io/library/mongo:7-jammy
+    volumes:
+      - ./restaurants.json:/tmp/restaurants.json:ro
+    restart: on-failure
+    command: mongoimport --host mongodb --db cv06 --collection restaurants --type json --jsonArray --file /tmp/restaurants.json
+  mongodb:
+    image: docker.io/library/mongo:7-jammy
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    depends_on:
+      - "import-data"

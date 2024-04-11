@@ -1,0 +1,22 @@
+# 5 restauraci s nejlepsim prumernym skorem pro znamku A
+db.restaurants.aggregate([
+    {$unwind:"$grades"},
+    {$match:{"grades.grade":"A"}},
+    {$group:{"_id":"$name",numGrades:{$sum:1},avgScore:{$avg:"$grades.score"}}},
+    {$match:{"numGrades":{$gte:3}}},
+    {$sort:{avgScore:-1}},
+    {$limit:5}
+])
+
+# nejlepsi restaurace pro kazdy typ kuchyne
+db.restaurants.aggregate([
+    {$unwind:"$grades"},
+    {$match:{"grades.grade":"A"}},
+    {$group:{"_id":{"name":"$name","cuisine":"$cuisine"},numGrades:{$sum:1},avgScore:{$avg:"$grades.score"}}},
+    {$project:{cuisine:"$_id.cuisine", name:"$_id.name", "_id":0}}
+])
+
+# vsechny restaurace s viceslovnym nazvem
+db.restaurants.aggregate([
+
+])
