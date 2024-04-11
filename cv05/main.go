@@ -174,7 +174,13 @@ func assignmentPart02(restaurantsCollection *mongo.Collection) {
 
 	// all restaurants with a score between 80 and 90 with non-American cuisine
 	cur, err = restaurantsCollection.Find(context.Background(),
-		bson.M{"grades.score": bson.M{"$gte": 80, "$lte": 90}, "cuisine": bson.M{"$ne": "American"}},
+		bson.M{"grades": bson.M{
+			"$elemMatch": bson.M{
+				"$and": bson.A{
+					bson.M{"score": bson.M{"$gte": 80}},
+					bson.M{"score": bson.M{"$lte": 90}},
+				}},
+		}, "cuisine": bson.M{"$ne": "American"}},
 		DefaultFindOptions,
 	)
 	if err != nil {
