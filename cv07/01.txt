@@ -1,0 +1,34 @@
+# vytvoreni indexu person
+PUT /person
+
+# vytvoreni zaznamu v indexu person
+POST /person/_doc/123
+{
+  "name": "John",
+  "surname": "Doe"
+}
+
+# vypsani vytvoreneho zaznamu
+GET /person/_doc/123
+
+# uprava zaznamu
+POST /person/_update/123
+{
+  "doc": {
+    "name": "Bob"
+  }
+}
+
+# vypsani vsech zaznamu
+GET /person/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+# smazani zaznamu
+DELETE /person/_doc/123
+
+# smazani indexu person
+DELETE /person
