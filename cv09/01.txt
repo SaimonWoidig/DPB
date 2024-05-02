@@ -1,0 +1,57 @@
+# vytvoreni indexu s explicitnim mapovanim
+PUT /orders-new
+{
+  "mappings": {
+    "properties": {
+      "created_date": {"type": "date"},
+      "items": {
+        "type": "nested",
+        "properties": {
+          "name": {"type": "text"},
+          "singular_price": {"type": "float"},
+          "quantity": {"type": "integer"},
+          "batch_price": {"type": "float"}
+        }
+      },
+      "total_price": {"type": "float"},
+      "customer": {
+        "type": "nested",
+        "properties": {
+          "name": {"type": "text"},
+          "email": {"type": "keyword"}
+        }
+      }
+    }
+  }
+}
+
+# vlozeni dokumentu do noveho indexu
+POST /orders-new/_doc/1
+{
+  "created_date": "2024-05-02",
+  "total_price": 74.43,
+  "items": [
+    {
+      "name": "Kicker Coffee",
+      "singular_price": 2.99,
+      "quantity": 3,
+      "batch_price": 8.97
+    },
+    {
+      "name": "Blue Cow energy drink",
+      "singular_price": 1.29,
+      "quantity": 12,
+      "batch_price": 15.48
+    },
+    {
+      "name": "All-Nighter caffeine pills (16-pack)",
+      "singular_price": 24.99,
+      "quantity": 2,
+      "batch_price": 49.98
+    }
+  ],
+  "customer":{
+    "name": "Sleepy Joe",
+    "email": "joe@sleepycorp.com"
+  }
+}
