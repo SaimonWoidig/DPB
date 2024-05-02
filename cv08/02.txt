@@ -1,0 +1,38 @@
+# vyhledavani produktu podle jmena s "naseptavanim"
+GET /products/_search
+{
+  "size": 5,
+  "query": {
+    "prefix": {
+      "name": {
+        "value": "cof"
+      }
+    }
+  }
+}
+
+# vyhledavani receptu podle libovolneho pole ktere musi obsahovat dany retezec (napr. spaghetti)
+GET /recipes/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "spaghetti",
+      "fields": ["title", "description", "ingredients"]
+    }
+  }
+}
+# v hodnote fields muze byt '*', to je vsak drahe na vypocet
+
+#
+GET /recipes/_search
+{
+  "query": {
+    "match_phrase": {
+      "title": {
+        "query": "Pasta Carbonara",
+        "slop": 0
+      }
+    }
+  }
+}
+# pokud slop je 0 tak transpozice slov neni povolena, pokud slop 2 tak je povolena
