@@ -23,7 +23,7 @@ GET /recipes/_search
 }
 # v hodnote fields muze byt '*', to je vsak drahe na vypocet
 
-#
+# hledani fraze 'Pasta Carbonara' a moznost hledat i 'Carbonara Pasta'
 GET /recipes/_search
 {
   "query": {
@@ -35,4 +35,4 @@ GET /recipes/_search
     }
   }
 }
-# pokud slop je 0 tak transpozice slov neni povolena, pokud slop 2 tak je povolena
+# pokud slop je 0 tak transpozice slov neni povolena, pokud slop 2 tak jsou povoleny 2 zameny
