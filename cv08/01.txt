@@ -1,0 +1,104 @@
+# coffee v nazvu produktu
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "name": "coffee"
+    }
+  }
+}
+# vrati 11 hitu
+
+# vyhledani coffee s moznym preklepem (coffe, offee...)
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": {
+        "query": "coffe", 
+        "fuzziness": 3
+      }
+    }
+  }
+}
+# se zvysujici se volnosti (fuzziness) se stava dotaz mene relevantnim
+
+# vyhledani 'Coffee' v poli tags
+GET /products/_search
+{
+  "query": {
+    "terms": {
+      "tags": ["Coffee"]
+    }
+  }
+}
+# nenalezne nic protoze term neprochazi analyzou a zustane jako 'Coffee', dokumenty projdou analyzou a jsou vzdy 'coffee'
+
+# najit produktu s tagem 'Coffee' a alespon 10 kusy na sklade
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "tags": "Coffee"
+          }
+        },
+        {
+          "range": {
+            "in_stock": {
+              "lte": 10
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# v nazvu 'coffee' ale ne 'cup'
+GET /products/_search
+{
+  "_source": "name",
+  "query": {
+    "bool": {
+      "must": {
+        "term": {
+          "name": "coffee"
+        }
+      },
+      "must_not": {
+        "term": {
+          "name": "cup"
+        }
+      }
+    }
+  }
+}
+
+# produkty pridany po roce 2000 - bez skorovani
+GET /products/_search
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "range": {
+          "created": {
+            "gte": "2001/01/01"
+          }
+        }
+      }
+    }
+  }
+}
+
+# full-text search v nazvu pro 'Red Wine'
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": "Red Wine"
+    }
+  }
+}
