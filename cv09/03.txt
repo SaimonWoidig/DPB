@@ -1,0 +1,81 @@
+# agregace
+# minimalni, maximalni a prumerna cena produktu
+POST /products/_search
+{
+  "size": 0,
+  "aggs": {
+    "min_price": {
+      "min": {
+        "field": "price"
+      }
+    },
+    "max_price": {
+      "max": {
+        "field": "price"
+      }
+    },
+    "avg_price": {
+      "avg": {
+        "field": "price"
+      }
+    }
+  }
+}
+
+# minimalni, maximalni a prumerny pocet prodanych produktu pomoci stats
+POST /products/_search
+{
+  "size": 0,
+  "aggs": {
+    "products_sold_stats": {
+      "stats": {
+        "field": "sold"
+      }
+    }
+  }
+}
+# zjistili jsme ze max z pole 'sold' je 499, tudiz udelame term query
+# ziskani produktu ktery se prodal nejvice
+POST /products/_search
+{
+  "query": {
+    "term": {
+      "sold": {
+        "value": 499
+      }
+    }
+  }
+}
+
+# pocet dokumentu pro kazdy tag
+POST /products/_search
+{
+  "size": 0, 
+  "aggs": {
+    "tag_count": {
+      "terms": {
+        "field": "tags.keyword"
+      }
+    }
+  }
+}
+
+# cenova statistika pro kazdy tag
+POST /products/_search
+{
+  "size": 0, 
+  "aggs": {
+    "tag_price_stats": {
+      "terms": {
+        "field": "tags.keyword"
+      },
+      "aggs": {
+        "price_stats": {
+          "stats": {
+            "field": "price"
+          }
+        }
+      }
+    }
+  }
+}

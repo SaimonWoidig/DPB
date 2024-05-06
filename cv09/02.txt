@@ -1,0 +1,22 @@
+# vyzkouseni analyzeru
+# whitespace - rozdeli text podle mezer, radku tabelatoru... proste whitespace
+POST /_analyze
+{
+  "text": ["The quick brown fox jumps over the lazy dog."],
+  "analyzer": "whitespace"
+}
+# vysledkem jsou tokeny - v tomto pripade slova - oddelene po mezerach, zustavaji velka pismena a specialni znaky jako je '.'
+
+# keyword - vlaste se jedna o 'no operation' analyzer, bere se cely text a ten se vraci jako token
+POST /_analyze
+{
+  "text": ["The quick brown fox jumps over the lazy dog."],
+  "analyzer": "keyword"
+}
+
+# language analyzery - v tomto pripade pro cestinu, vraci koreny slov
+POST /_analyze
+{
+  "text": "Pravda a láska musí zvítězit nad lží a nenávistí!",
+  "analyzer": "czech"
+}

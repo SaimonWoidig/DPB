@@ -1,0 +1,123 @@
+# cenove statistiky pro produkty s tagem `Cake` nebo `Coffee`
+POST /products/_search
+{
+  "size": 0,
+  "aggs": {
+    "filtered_tags": {
+      "filter": {
+        "terms": {
+          "tags.keyword": ["Cake", "Coffee"]
+        }
+      },
+      "aggs": {
+        "filtered_tags_price_stats": {
+          "terms": {
+            "field": "tags.keyword"
+          },
+          "aggs": {
+            "price_stats": {
+              "stats": {
+                "field": "price"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+# min, max a avg cena objednavek dle statusu
+POST /orders/_search
+{
+  "size": 0,
+  "aggs":{
+    "order_statuses": {
+      "terms": {
+        "field": "status.keyword"
+      },
+      "aggs": {
+        "min_price": {
+          "min": {
+            "field": "total_amount"
+          }
+        },
+        "max_price": {
+          "max": {
+            "field": "total_amount"
+          }
+        },
+        "avg_price": {
+          "avg": {
+            "field": "total_amount"
+          }
+        }
+      }
+    }
+  }
+}
+
+# vlozeni objednavky bez 'purchased_at'
+POST /orders/_doc
+{
+  "lines": [
+    {
+      "product_id": 1,
+      "amount": 11.11,
+      "quantity": 1
+    }
+  ],
+  "total_amount": 11.11,
+  "salesman": {
+    "id": 123,
+    "name": "John Doe"
+  },
+  "sales_channel": "store",
+  "status": "processed"
+}
+
+# vypis prumernych cen za kvartaly roku 2016, objednavky bez data zakoupeni jsou v bucketu N/A
+POST /orders/_search
+{
+  "size": 0,
+  "aggs": {
+    "quarterly_prices": {
+      "filters": {
+        "filters": {
+          "year_2016": {
+            "range": {
+              "purchased_at": {
+                "gte": "2016-01-01",
+                "lte": "2016-12-31"
+              }
+            }
+          },
+          "N/A": {
+            "bool": {
+              "must_not": {
+                "exists": {
+                  "field": "purchased_at"
+                }
+              }
+            }
+          }
+        }
+      },
+      "aggs": {
+        "quarters": {
+          "date_histogram": {
+            "field": "purchased_at",
+            "calendar_interval": "quarter"
+          },
+          "aggs": {
+            "avg_price": {
+              "avg": {
+                "field": "total_amount"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
