@@ -1,0 +1,11 @@
+services:
+  cassandra-node1:
+    image: bitnami/cassandra:4.1.2
+    environment:
+      - CASSANDRA_CLUSTER_NAME=dpb-cassandra-cluster
+      - CASSANDRA_PASSWORD_SEEDER=yes
+      - CASSANDRA_PASSWORD=${COMPOSE_CASSANDRA_PASSWORD}
+    ports:
+      - 9042:9042
+      - 9160:9160
+    restart: unless-stopped

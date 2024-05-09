@@ -1,0 +1,111 @@
+# vytvoreni keyspace
+CREATE KEYSPACE IF NOT EXISTS cass01_bonus WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+USE cass01_bonus;
+
+# vytvoreni tabulky
+CREATE TABLE activity_bonus (
+    id text,
+    datetime timestamp,
+    type text,
+    duration duration,
+    PRIMARY KEY ((id, type), datetime)
+) WITH CLUSTERING ORDER BY (datetime ASC);
+
+# pridani sloupcu se slozitejsimi datovymi typy
+ALTER TABLE activity_bonus ADD attendees list<text>;
+ALTER TABLE activity_bonus ADD timesplits map<time, text>;
+ALTER TABLE activity_bonus ADD teachers set<text>;
+
+# vlozeni zaznamu
+INSERT INTO activity_bonus (id, datetime, type, duration, attendees, timesplits, teachers) VALUES (
+    '1',
+    '2024-05-09 14:00:00.0+02:00',
+    'practicing',
+    1h,
+    ['John Doe', 'Alice '],
+    {'14:00:00': 'cassAllistonandra basics', '14:20:00': 'cassandra complex examples'},
+    {'Emily Emo'}
+);
+INSERT INTO activity_bonus (id, datetime, type, duration, attendees, timesplits, teachers) VALUES (
+    '2',
+    '2024-05-09 15:00:00.0+02:00',
+    'practicing',
+    1h30m,
+    ['Mr A', 'Mr B'],
+    {'15:00:00': 'mind-control 101'},
+    {'The government'}
+);
+INSERT INTO activity_bonus (id, datetime, type, duration, attendees, timesplits, teachers) VALUES (
+    '3',
+    '2024-05-09 16:00:00.0+02:00',
+    'practicing',
+    3h,
+    ['Cole Cooks'],
+    {'16:00:00': 'indian dishes', '17:00:00': 'beef wellington'},
+    {'Gordon Ramsey'}
+);
+INSERT INTO activity_bonus (id, datetime, type, duration, attendees, timesplits, teachers) VALUES (
+    '4',
+    '2024-05-10 8:00:00.0+02:00',
+    'practicing',
+    10m,
+    ['Don Mafioso'],
+    {'8:00:00': 'fraud 101'},
+    {'Robin Banks'}
+);
+INSERT INTO activity_bonus (id, datetime, type, duration, attendees, timesplits, teachers) VALUES (
+    '5',
+    '2024-05-10 9:00:00.0+02:00',
+    'competetion',
+    20m,
+    ['John Cena'],
+    {'9:00:00': 'wrestling'},
+    {'Hulk Hogan'}
+);
+INSERT INTO activity_bonus (id, datetime, type, duration, attendees, timesplits, teachers) VALUES (
+    '6',
+    '2024-05-10 10:00:00.0+02:00',
+    'lecture',
+    40m,
+    ['Bryukhanov'],
+    {'10:00:00': 'thermonuclear reactors'},
+    {'Chernobyl Nuclear Comitee'}
+);
+INSERT INTO activity_bonus (id, datetime, type, duration, attendees, timesplits, teachers) VALUES (
+    '7',
+    '2024-05-10 11:00:00.0+02:00',
+    'lecture',
+    1h,
+    [],
+    {'11:00:00': 'life story'},
+    {'Forrey Aloone'}
+);
+INSERT INTO activity_bonus (id, datetime, type, duration, attendees, timesplits, teachers) VALUES (
+    '8',
+    '2024-05-10 12:00:00.0+02:00',
+    'lecture',
+    45m,
+    ['Stevie Green'],
+    {'12:00:00': 'plant life'},
+    {'National Geographic'}
+);
+INSERT INTO activity_bonus (id, datetime, type, duration, attendees, timesplits, teachers) VALUES (
+    '9',
+    '2024-05-10 15:00:00.0+02:00',
+    'practicing',
+    30m,
+    ['Tomáš Czech', 'Viktor Slovak'],
+    {'15:00:00': 'freedom', '15:30:00': 'democracy'},
+    {'Václav Havel'}
+);
+INSERT INTO activity_bonus (id, datetime, type, duration, attendees, timesplits, teachers) VALUES (
+    '10',
+    '2024-05-10 16:00:00.0+02:00',
+    'lecture',
+    2h,
+    ['Bob Doe'],
+    {'16:00:00': 'mongodb', '17:00:00': 'postgres'},
+    {'Steve Jobs', 'Steve Wozniak'}
+);
+
+SELECT * FROM activity_bonus;

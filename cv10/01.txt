@@ -1,0 +1,38 @@
+# vytvoreni keyspace
+CREATE KEYSPACE IF NOT EXISTS cass01 WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+# kontrola a prepnuti
+DESCRIBE KEYSPACE cass01;
+USE cass01;
+
+# vytvoreni tabulky
+CREATE TABLE activity (
+    id text,
+    datetime timestamp,
+    PRIMARY KEY (id, datetime)
+) WITH CLUSTERING ORDER BY (datetime DESC);
+
+# pridani sloupce a kontrola jestli byl pridan
+ALTER TABLE activity ADD event text;
+SELECT * FROM activity;
+
+# vlozeni zaznamu
+INSERT INTO activity (id, datetime, event) VALUES (
+    'abcd',
+    '2024-05-09 14:53:08.188288477+02:00',
+    'Hot-dog swallowing competetion'
+);
+
+# vlozeni zaznamu s aktualni datem
+INSERT INTO activity (id, datetime, event) VALUES (
+    'efgh',
+    dateof(now()),
+    'Cassandra lesson'
+);
+
+# vypis tabulky
+SELECT * FROM activity;
+
+# smazani
+DELETE FROM activity WHERE id IN ('abcd', 'efgh');
+DROP TABLE activity;
+DROP KEYSPACE cass01;
