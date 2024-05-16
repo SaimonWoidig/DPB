@@ -1,0 +1,16 @@
+# nesmi se poustet pri kazdem pusteni hlavniho programu - jen pri prazdne instanci Cassandry
+
+# vytvoreni keyspace
+CREATE KEYSPACE IF NOT EXISTS dc WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+
+# vytvoreni tabulky
+CREATE TABLE dc.messages (
+    room_id bigint,
+    speaker_id bigint,
+    time timestamp,
+    message text,
+    PRIMARY KEY (room_id, time)
+);
+
+# import dat
+COPY dc.messages (room_id, speaker_id, time, message) FROM '/tmp/message_db.csv' WITH HEADER = true AND DELIMITER = ';' AND ERRFILE = '/tmp/import.err';

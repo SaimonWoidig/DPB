@@ -1,0 +1,3 @@
+.env
+cassandra-compose/data/*
+!cassandra-compose/data/.gitkeep
